@@ -1,0 +1,903 @@
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| c0710861           |
+| information_schema |
+| menagerie          |
+| movies             |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| stutestdb          |
+| test               |
++--------------------+
+10 rows in set (0.11 sec)
+
+MariaDB [(none)]> use mytestdb;
+Database changed
+MariaDB [mytestdb]> create table pieces
+    -> Code Integer(10) Primary key,
+    -> Name VARCHAR(50) NOT NULL
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Code Integer(10) Primary key,
+Name VARCHAR(50) NOT NULL
+)' at line 2
+MariaDB [mytestdb]> CREATE TABLE pieces( code INT(5) PRIMARY KEY,NAME TEST(100));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'TEST(100))' at line 1
+MariaDB [mytestdb]> CREATE TABLE pieces( code INT(5) PRIMARY KEY,NAME TEXT(100)0;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '0' at line 1
+MariaDB [mytestdb]> create table pieces (    code int(3) primary key,    name varchar(50));
+Query OK, 0 rows affected (0.31 sec)
+
+MariaDB [mytestdb]> create table providers (code int(3) primary key, name varchar(50));
+Query OK, 0 rows affected (0.27 sec)
+
+MariaDB [mytestdb]> create table provides (    code int(3) auto_increment,     piece int(3) references pieces(code),     provider int(3) references providers(code),    price double(10,2) CHECK (price > 10),    PRIMARy KEY(code, piece, provider));
+Query OK, 0 rows affected (0.28 sec)
+
+MariaDB [mytestdb]> CREATE TABLE Pieces(    Code Integer(10) Primary key,    Name VARCHAR(50) NOT NULL);CREATE TABLE Providers(    Code VARCHAR(50) PRIMARY key NOT NULL,    Name VARCHAR(50) NOT NULL);CREATE TABLE Provides(    Code Integer(10)  AUTO_INCREMENT,    Piece Integer(10)  References Pieces(Code),    Provider VARCHAR(50)  References Providers(Code),    Price Double(10,2) CHECK(Price >10),    PRIMARY KEY(Code,Piece,Provider));
+ERROR 1050 (42S01): Table 'pieces' already exists
+ERROR 1050 (42S01): Table 'providers' already exists
+ERROR 1050 (42S01): Table 'provides' already exists
+MariaDB [mytestdb]> Create Table Pieces         (         Code int(5) Not Null Primary Key,         Name varchar(50)       );        Create Table Providers         (         Code varchar(5) Not Null Primary Key,         Name varchar(50)          );                  Create Table Provides         (         Code int(5) Auto_Increment,         Piece int(5) ,         Provider varchar(5),         Price decimal(10,2) Check(Price>10),     Primary Key (Code,Piece,Provider),         Foreign Key (Piece) REFERENCES Pieces(Code),         Foreign Key (Provider) REFERENCES Providers(Code)         );
+ERROR 1050 (42S01): Table 'pieces' already exists
+ERROR 1050 (42S01): Table 'providers' already exists
+ERROR 1050 (42S01): Table 'provides' already exists
+MariaDB [mytestdb]> select a.Name, max(a.price), b.Namefrom Manufacturers b join Products a on a.Manufacturer = b.codegroup by b.name;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'b join Products a on a.Manufacturer = b.codegroup by b.name' at line 1
+MariaDB [mytestdb]> SELECT Products.Name, MAX(Price), Manufacturers.NameFROM Products, ManufacturersWHERE Manufacturer = Manufacturers.CodeGROUP BY Manufacturers.Name;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '= Manufacturers.CodeGROUP BY Manufacturers.Name' at line 1
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');INSERT INTO Pieces(Code, Name) VALUES(1,'Sprocket');INSERT INTO Pieces(Code, Name) VALUES(2,'Screw');INSERT INTO Pieces(Code, Name) VALUES(3,'Nut');INSERT INTO Pieces(Code, Name) VALUES(4,'Bolt');INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'HAL',10);INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'HAL',20);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'TNBC',14);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'RBT',50);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'TNBC',45);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'HAL',5);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'RBT',7);
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.07 sec)
+
+Query OK, 1 row affected (0.04 sec)
+
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+MariaDB [mytestdb]> show tables;
++--------------------+
+| Tables_in_mytestdb |
++--------------------+
+| pieces             |
+| providers          |
+| provides           |
+| student            |
++--------------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from Pieces;
++------+----------+
+| code | name     |
++------+----------+
+|    1 | Sprocket |
+|    2 | Screw    |
+|    3 | Nut      |
+|    4 | Bolt     |
++------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from Providers;
++------+--------------------+
+| code | name               |
++------+--------------------+
+|    0 | Clarke Enterprises |
++------+--------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from provides
+    -> ;
++------+-------+----------+-------+
+| code | piece | provider | price |
++------+-------+----------+-------+
+|    1 |     1 |        0 | 10.00 |
+|    2 |     1 |        0 | 15.00 |
+|    3 |     2 |        0 | 20.00 |
+|    4 |     2 |        0 | 15.00 |
+|    5 |     2 |        0 | 14.00 |
+|    6 |     3 |        0 | 50.00 |
+|    7 |     3 |        0 | 45.00 |
+|    8 |     4 |        0 |  5.00 |
+|    9 |     4 |        0 |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.02 sec)
+
+MariaDB [mytestdb]> select * from provides;
++------+-------+----------+-------+
+| code | piece | provider | price |
++------+-------+----------+-------+
+|    1 |     1 |        0 | 10.00 |
+|    2 |     1 |        0 | 15.00 |
+|    3 |     2 |        0 | 20.00 |
+|    4 |     2 |        0 | 15.00 |
+|    5 |     2 |        0 | 14.00 |
+|    6 |     3 |        0 | 50.00 |
+|    7 |     3 |        0 | 45.00 |
+|    8 |     4 |        0 |  5.00 |
+|    9 |     4 |        0 |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]>
+MariaDB [mytestdb]>
+MariaDB [mytestdb]>
+MariaDB [mytestdb]> Bye
+
+710861@203-IMAC18 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| c0710861           |
+| information_schema |
+| menagerie          |
+| movies             |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| stutestdb          |
+| test               |
++--------------------+
+10 rows in set (0.00 sec)
+
+MariaDB [(none)]> use mytestdb;
+Database changed
+MariaDB [mytestdb]> CREATE TABLE Products ( Code INTEGER, Name VARCHAR(255) NOT NULL , Price DECIMAL NOT NULL , Manufacturer INTEGER NOT NULL, PRIMARY KEY (Code), FOREIGN KEY (Manufacturer) REFERENCES Manufacturers(Code) ON DELETE SET NULL)
+    -> ;
+ERROR 1005 (HY000): Can't create table `mytestdb`.`products` (errno: 150 "Foreign key constraint is incorrectly formed")
+MariaDB [mytestdb]> CREATE TABLE Products ( Code INTEGER, Name VARCHAR(255) NOT NULL , Price DECIMAL NOT NULL , Manufacturer INTEGER, PRIMARY KEY (Code), FOREIGN KEY (Manufacturer) REFERENCES Manufacturers(Code) ON DELETE SET NULL)
+    -> ;
+ERROR 1005 (HY000): Can't create table `mytestdb`.`products` (errno: 150 "Foreign key constraint is incorrectly formed")
+MariaDB [mytestdb]> CREATE TABLE Products ( Code INTEGER, Name VARCHAR(255) NOT NULL , Price DECIMAL NOT NULL , Manufacturer INTEGER, PRIMARY KEY (Code), FOREIGN KEY (Manufacturer) REFERENCES Manufacturers(Code) ON DELETE SET NULL);
+ERROR 1005 (HY000): Can't create table `mytestdb`.`products` (errno: 150 "Foreign key constraint is incorrectly formed")
+MariaDB [mytestdb]> CREATE TABLE STUDENT (STUDENT_ID INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,FIRSTNAME VARCHAR(50) NOT NULL,LASTNAME VARCHAR(50) NOT NULL,GENDER VARCHAR(50) NOT NULL,DOB DATE,CITY VARCHAR(30) NOT NULL,COUNTRY VARCHAR(50) NOT NULL,AGE SMALLINT(3) NOT NULL,COURSE VARCHAR(50) DEFAULT 'MADT',STATUS CHAR(1) DEFAULT 'A',DOJ TIMESTAMP DEFAULT CURRENT_TIMESTAMP,MARKS BIGINT(5),YEARIFPASSING YEAR );
+ERROR 1050 (42S01): Table 'student' already exists
+MariaDB [mytestdb]> CREATE TABLE MANUFACTURERS(CODE INTEGER(3) PRIMARY KEY,NAME VARCHAR(50) NOT NULL);
+Query OK, 0 rows affected (0.20 sec)
+
+MariaDB [mytestdb]> INSERT INTO MANUFACTURERS VALUES('');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+MariaDB [mytestdb]> CREATE TABLE PRODUCTS(CODE INTEGER(3) ,NAME VARCHAR(50) NOT NULL,PRICE FLOAT(9,2),MANUFACTURER INTEGER(3) REFERENCES MANUFACTURERS(CODE),PRIMARY KEY (CODE));
+Query OK, 0 rows affected (0.17 sec)
+
+MariaDB [mytestdb]> CREATE TABLE PRODUCTS(CODE INTEGER(3) ,NAME VARCHAR(50) NOT NULL,PRICE FLOAT(9,2),MANUFACTURER INTEGER(3) ,PRIMARY KEY (CODE),FOREIGN KEY (MANUFACTURER) REFERENCES MANUFACTURERS(CODE));
+ERROR 1050 (42S01): Table 'products' already exists
+MariaDB [mytestdb]> INSERT INTO Manufacturers(Code,Name) VALUES(1,'Sony');INSERT INTO Manufacturers(Code,Name) VALUES(2,'Creative Labs');INSERT INTO Manufacturers(Code,Name) VALUES(3,'Hewlett-Packard');INSERT INTO Manufacturers(Code,Name) VALUES(4,'Iomega');INSERT INTO Manufacturers(Code,Name) VALUES(5,'Fujitsu');INSERT INTO Manufacturers(Code,Name) VALUES(6,'Winchester');INSERT INTO manufacturers VALUES(7,'moxDroid Labs Inc');
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(1,'Hard drive',240,5);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(2,'Memory',120,6);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(3,'ZIP drive',150,4);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(4,'Floppy disk',5,6);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(5,'Monitor',240,1);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(6,'DVD drive',180,2);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(7,'CD drive',90,2);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(8,'Printer',270,3);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(9,'Toner cartridge',66,3);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(10,'DVD burner',180,2);
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [mytestdb]> INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(11,'Printer',270.00,7);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(12,'Toner cartridge',270.00,7);INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(13,'DVD burner',270.00,7);
+Query OK, 1 row affected (0.08 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [mytestdb]> select * from manufacturers;
++------+-------------------+
+| CODE | NAME              |
++------+-------------------+
+|    1 | Sony              |
+|    2 | Creative Labs     |
+|    3 | Hewlett-Packard   |
+|    4 | Iomega            |
+|    5 | Fujitsu           |
+|    6 | Winchester        |
+|    7 | moxDroid Labs Inc |
++------+-------------------+
+7 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> MariaDB [mytestdb]> select * from products;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'MariaDB [mytestdb]> select * from products' at line 1
+MariaDB [mytestdb]>
+MariaDB [mytestdb]>
+MariaDB [mytestdb]> CREATE TABLE PRODUCTS(CODE INTEGER(3) ,NAME VARCHAR(50) NOT NULL,PRICE FLOAT(9,2),MANUFACTURER INTEGER(3) ,PRIMARY KEY (CODE),FOREIGN KEY (MANUFACTURER) REFERENCES MANUFACTURERS(CODE));
+ERROR 1050 (42S01): Table 'products' already exists
+MariaDB [mytestdb]> select * from products;
++------+-----------------+--------+--------------+
+| CODE | NAME            | PRICE  | MANUFACTURER |
++------+-----------------+--------+--------------+
+|    1 | Hard drive      | 240.00 |            5 |
+|    2 | Memory          | 120.00 |            6 |
+|    3 | ZIP drive       | 150.00 |            4 |
+|    4 | Floppy disk     |   5.00 |            6 |
+|    5 | Monitor         | 240.00 |            1 |
+|    6 | DVD drive       | 180.00 |            2 |
+|    7 | CD drive        |  90.00 |            2 |
+|    8 | Printer         | 270.00 |            3 |
+|    9 | Toner cartridge |  66.00 |            3 |
+|   10 | DVD burner      | 180.00 |            2 |
+|   11 | Printer         | 270.00 |            7 |
+|   12 | Toner cartridge | 270.00 |            7 |
+|   13 | DVD burner      | 270.00 |            7 |
++------+-----------------+--------+--------------+
+13 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> CREATE TABLE `products` (
+    ->   `CODE` int(3) NOT NULL,
+    ->   `NAME` varchar(50) NOT NULL,
+    ->   `price` float(3,2) NOT NULL,
+    ->   `MANUFACTURER` int(3) DEFAULT NULL,
+    ->   PRIMARY KEY (`CODE`),
+    ->   KEY `MANUFACTURER` (`MANUFACTURER`),
+    ->   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`MANUFACTURER`) REFERENCES `manufacturers` (`CODE`)
+    -> ) ENGINE=InnoDB DEFAULT CHARSET=latin1
+    -> CREATE TABLE `products` (
+    ->   `CODE` int(3) NOT NULL,
+    ->   `NAME` varchar(50) NOT NULL,
+    ->   `price` float(3,2) NOT NULL,
+    ->   `MANUFACTURER` int(3) DEFAULT NULL,
+    ->   PRIMARY KEY (`CODE`),
+    ->   KEY `MANUFACTURER` (`MANUFACTURER`),
+    ->   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`MANUFACTURER`) REFERENCES `manufacturers` (`CODE`)
+    -> ) ENGINE=InnoDB DEFAULT CHARSET=latin1
+    -> INSERT INTO manufacturers VALUES(7,'moxDroid Labs Inc');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'CREATE TABLE `products` (
+  `CODE` int(3) NOT NULL,
+  `NAME` varchar(50) NOT NUL' at line 10
+MariaDB [mytestdb]> INSERT INTO manufacturers VALUES(7,'moxDroid Labs Inc');
+ERROR 1062 (23000): Duplicate entry '7' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO Products(Code,Name,Price,Manufacturer) VALUES(11,'Printer',270,7);
+ERROR 1062 (23000): Duplicate entry '11' for key 'PRIMARY'
+MariaDB [mytestdb]> show tables
+    -> ;
++--------------------+
+| Tables_in_mytestdb |
++--------------------+
+| manufacturers      |
+| pieces             |
+| products           |
+| providers          |
+| provides           |
+| student            |
++--------------------+
+6 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from pieces;
++------+----------+
+| code | name     |
++------+----------+
+|    1 | Sprocket |
+|    2 | Screw    |
+|    3 | Nut      |
+|    4 | Bolt     |
++------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select from * providers
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'from * providers' at line 1
+MariaDB [mytestdb]> select from * provides;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'from * provides' at line 1
+MariaDB [mytestdb]> select * from Pieces;
++------+----------+
+| code | name     |
++------+----------+
+|    1 | Sprocket |
+|    2 | Screw    |
+|    3 | Nut      |
+|    4 | Bolt     |
++------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from Providers;
++------+--------------------+
+| code | name               |
++------+--------------------+
+|    0 | Clarke Enterprises |
++------+--------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from provides;
++------+-------+----------+-------+
+| code | piece | provider | price |
++------+-------+----------+-------+
+|    1 |     1 |        0 | 10.00 |
+|    2 |     1 |        0 | 15.00 |
+|    3 |     2 |        0 | 20.00 |
+|    4 |     2 |        0 | 15.00 |
+|    5 |     2 |        0 | 14.00 |
+|    6 |     3 |        0 | 50.00 |
+|    7 |     3 |        0 | 45.00 |
+|    8 |     4 |        0 |  5.00 |
+|    9 |     4 |        0 |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from provides;
++------+-------+----------+-------+
+| code | piece | provider | price |
++------+-------+----------+-------+
+|    1 |     1 |        0 | 10.00 |
+|    2 |     1 |        0 | 15.00 |
+|    3 |     2 |        0 | 20.00 |
+|    4 |     2 |        0 | 15.00 |
+|    5 |     2 |        0 | 14.00 |
+|    6 |     3 |        0 | 50.00 |
+|    7 |     3 |        0 | 45.00 |
+|    8 |     4 |        0 |  5.00 |
+|    9 |     4 |        0 |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select provider from provides where piece=
+    -> 1;
++----------+
+| provider |
++----------+
+|        0 |
+|        0 |
++----------+
+2 rows in set (0.03 sec)
+
+MariaDB [mytestdb]> SELECT provider from provides where pieces=1;
+ERROR 1054 (42S22): Unknown column 'pieces' in 'where clause'
+MariaDB [mytestdb]> SELECT provider from provides where piece=1;
++----------+
+| provider |
++----------+
+|        0 |
+|        0 |
++----------+
+2 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> s
+    -> select pieces.code,provides.avg(price)from provider inner join pieces on pieces.code=provides.pieces;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 's
+select pieces.code,provides.avg(price)from provider inner join pieces on piece' at line 1
+MariaDB [mytestdb]> SELECT Piece, AVG(Price)
+    ->     FROM Provides
+    -> GROUP BY Piece;
++-------+------------+
+| Piece | AVG(Price) |
++-------+------------+
+|     1 |  12.500000 |
+|     2 |  16.333333 |
+|     3 |  47.500000 |
+|     4 |   6.000000 |
++-------+------------+
+4 rows in set (0.03 sec)
+
+MariaDB [mytestdb]> SELECT Name FROM Pieces;
++----------+
+| Name     |
++----------+
+| Sprocket |
+| Screw    |
+| Nut      |
+| Bolt     |
++----------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM Providers;
++------+--------------------+
+| code | name               |
++------+--------------------+
+|    0 | Clarke Enterprises |
++------+--------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT Piece, AVG(Price)
+    ->     FROM Provides
+    -> GROUP BY Piece;
++-------+------------+
+| Piece | AVG(Price) |
++-------+------------+
+|     1 |  12.500000 |
+|     2 |  16.333333 |
+|     3 |  47.500000 |
+|     4 |   6.000000 |
++-------+------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT Providers.Name
+    ->    FROM Providers INNER JOIN Provides
+    ->           ON Providers.Code = Provides.Provider
+    ->              AND Provides.Piece = 1;
++--------------------+
+| Name               |
++--------------------+
+| Clarke Enterprises |
+| Clarke Enterprises |
++--------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT Name
+    ->    FROM Providers
+    ->   WHERE Code IN
+    ->    (SELECT Provider FROM Provides WHERE Piece = 1)
+    -> ;
++--------------------+
+| Name               |
++--------------------+
+| Clarke Enterprises |
++--------------------+
+1 row in set (0.05 sec)
+
+MariaDB [mytestdb]> SELECT Pieces.Name
+    ->    FROM Pieces INNER JOIN Provides
+    ->    ON Pieces.Code = Provides.Piece
+    ->      AND Provides.Provider = 'HAL';
++----------+
+| Name     |
++----------+
+| Sprocket |
+| Sprocket |
+| Screw    |
+| Screw    |
+| Screw    |
+| Nut      |
+| Nut      |
+| Bolt     |
+| Bolt     |
++----------+
+9 rows in set, 1 warning (0.00 sec)
+
+MariaDB [mytestdb]> SELECT Name
+    ->    FROM Pieces
+    ->    WHERE Code IN
+    ->      (SELECT Piece FROM Provides WHERE Provider = 'HAL');
++----------+
+| Name     |
++----------+
+| Sprocket |
+| Screw    |
+| Nut      |
+| Bolt     |
++----------+
+4 rows in set, 1 warning (0.00 sec)
+
+MariaDB [mytestdb]> SELECT Name
+    ->    FROM Pieces
+    ->    WHERE EXISTS
+    ->    (
+    ->      SELECT * FROM Provides
+    ->        WHERE Provider = 'HAL'
+    ->          AND Piece = Pieces.Code
+    ->    );
++----------+
+| Name     |
++----------+
+| Sprocket |
+| Screw    |
+| Nut      |
+| Bolt     |
++----------+
+4 rows in set, 1 warning (0.00 sec)
+
+MariaDB [mytestdb]>
+MariaDB [mytestdb]> select from *
+    ->
+    ->
+    ->
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'from *' at line 1
+MariaDB [mytestdb]> select * from provides;
++------+-------+----------+-------+
+| code | piece | provider | price |
++------+-------+----------+-------+
+|    1 |     1 |        0 | 10.00 |
+|    2 |     1 |        0 | 15.00 |
+|    3 |     2 |        0 | 20.00 |
+|    4 |     2 |        0 | 15.00 |
+|    5 |     2 |        0 | 14.00 |
+|    6 |     3 |        0 | 50.00 |
+|    7 |     3 |        0 | 45.00 |
+|    8 |     4 |        0 |  5.00 |
+|    9 |     4 |        0 |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+MariaDB [mytestdb]>
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(1,'Sprocket');
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(2,'Screw');
+ERROR 1062 (23000): Duplicate entry '2' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(3,'Nut');
+ERROR 1062 (23000): Duplicate entry '3' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(4,'Bolt');
+ERROR 1062 (23000): Duplicate entry '4' for key 'PRIMARY'
+MariaDB [mytestdb]>
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'HAL',10);
+Query OK, 1 row affected, 1 warning (0.06 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'RBT',15);
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'HAL',20);
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'RBT',15);
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'TNBC',14);
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'RBT',50);
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'TNBC',45);
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'HAL',5);
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'RBT',7);
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+MariaDB [mytestdb]>
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(1,'Sprocket');
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(2,'Screw');
+ERROR 1062 (23000): Duplicate entry '2' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(3,'Nut');
+ERROR 1062 (23000): Duplicate entry '3' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(4,'Bolt');
+ERROR 1062 (23000): Duplicate entry '4' for key 'PRIMARY'
+MariaDB [mytestdb]>
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'HAL',10);
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'RBT',15);
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'HAL',20);
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'RBT',15);
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'TNBC',14);
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'RBT',50);
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'TNBC',45);
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'HAL',5);
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'RBT',7);\
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+MariaDB [mytestdb]> select * from provides;
++------+-------+----------+-------+
+| code | piece | provider | price |
++------+-------+----------+-------+
+|    1 |     1 |        0 | 10.00 |
+|    2 |     1 |        0 | 15.00 |
+|    3 |     2 |        0 | 20.00 |
+|    4 |     2 |        0 | 15.00 |
+|    5 |     2 |        0 | 14.00 |
+|    6 |     3 |        0 | 50.00 |
+|    7 |     3 |        0 | 45.00 |
+|    8 |     4 |        0 |  5.00 |
+|    9 |     4 |        0 |  7.00 |
+|   10 |     1 |        0 | 10.00 |
+|   11 |     1 |        0 | 15.00 |
+|   12 |     2 |        0 | 20.00 |
+|   13 |     2 |        0 | 15.00 |
+|   14 |     2 |        0 | 14.00 |
+|   15 |     3 |        0 | 50.00 |
+|   16 |     3 |        0 | 45.00 |
+|   17 |     4 |        0 |  5.00 |
+|   18 |     4 |        0 |  7.00 |
+|   19 |     1 |        0 | 10.00 |
+|   20 |     1 |        0 | 15.00 |
+|   21 |     2 |        0 | 20.00 |
+|   22 |     2 |        0 | 15.00 |
+|   23 |     2 |        0 | 14.00 |
+|   24 |     3 |        0 | 50.00 |
+|   25 |     3 |        0 | 45.00 |
+|   26 |     4 |        0 |  5.00 |
+|   27 |     4 |        0 |  7.00 |
++------+-------+----------+-------+
+27 rows in set (0.00 sec)
+
+MariaDB [mytestdb]>
+MariaDB [mytestdb]> drop table provides;
+Query OK, 0 rows affected (0.19 sec)
+
+MariaDB [mytestdb]>
+MariaDB [mytestdb]> CREATE TABLE Provides(    Code Integer(10)  AUTO_INCREMENT,    Piece Integer(10)  References Pieces(Code),    Provider VARCHAR(50)  References Providers(Code),    Price Double(10,2) CHECK(Price >10),    PRIMARY KEY(Code,Piece,Provider));
+Query OK, 0 rows affected (0.20 sec)
+
+MariaDB [mytestdb]> CREATE TABLE Pieces(    Code Integer(10) Primary key,    Name VARCHAR(50) NOT NULL);
+ERROR 1050 (42S01): Table 'pieces' already exists
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(1,'Sprocket');INSERT INTO Pieces(Code, Name) VALUES(2,'Screw');INSERT INTO Pieces(Code, Name) VALUES(3,'Nut');INSERT INTO Pieces(Code, Name) VALUES(4,'Bolt');
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '2' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '3' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '4' for key 'PRIMARY'
+MariaDB [mytestdb]> Bye
+
+710861@203-IMAC18 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 4
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| c0710861           |
+| information_schema |
+| menagerie          |
+| movies             |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| stutestdb          |
+| test               |
++--------------------+
+10 rows in set (0.00 sec)
+
+MariaDB [(none)]> use mytestdb
+Database changed
+MariaDB [mytestdb]> CREATE TABLE Pieces(    Code Integer(10) Primary key,    Name VARCHAR(50) NOT NULL);
+ERROR 1050 (42S01): Table 'pieces' already exists
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(1,'Sprocket');INSERT INTO Pieces(Code, Name) VALUES(2,'Screw');INSERT INTO Pieces(Code, Name) VALUES(3,'Nut');INSERT INTO Pieces(Code, Name) VALUES(4,'Bolt');
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '2' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '3' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '4' for key 'PRIMARY'
+MariaDB [mytestdb]> create table providers (code int(3) primary key, name varchar(50));create table provides (
+ERROR 1050 (42S01): Table 'providers' already exists
+    ->
+    ->
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+ERROR 1062 (23000): Duplicate entry '0' for key 'PRIMARY'
+MariaDB [mytestdb]> CREATE TABLE Provides(    Code Integer(10)  AUTO_INCREMENT,    Piece Integer(10)  References Pieces(Code),    Provider VARCHAR(50)  References Providers(Code),    Price Double(10,2) CHECK(Price >10),    PRIMARY KEY(Code,Piece,Provider));
+ERROR 1050 (42S01): Table 'provides' already exists
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'HAL',10);INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'HAL',20);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'RBT',15);INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'TNBC',14);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'RBT',50);INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'TNBC',45);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'HAL',5);INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'RBT',7);
+Query OK, 1 row affected (0.09 sec)
+
+Query OK, 1 row affected (0.06 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.05 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [mytestdb]> select * from rovides;
+ERROR 1146 (42S02): Table 'mytestdb.rovides' doesn't exist
+MariaDB [mytestdb]>  select * from provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     1 | HAL      | 10.00 |
+|    2 |     1 | RBT      | 15.00 |
+|    3 |     2 | HAL      | 20.00 |
+|    4 |     2 | RBT      | 15.00 |
+|    5 |     2 | TNBC     | 14.00 |
+|    6 |     3 | RBT      | 50.00 |
+|    7 |     3 | TNBC     | 45.00 |
+|    8 |     4 | HAL      |  5.00 |
+|    9 |     4 | RBT      |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> update provides set price = price + 1;
+Query OK, 9 rows affected (0.11 sec)
+Rows matched: 9  Changed: 9  Warnings: 0
+
+MariaDB [mytestdb]> select * from provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     1 | HAL      | 11.00 |
+|    2 |     1 | RBT      | 16.00 |
+|    3 |     2 | HAL      | 21.00 |
+|    4 |     2 | RBT      | 16.00 |
+|    5 |     2 | TNBC     | 15.00 |
+|    6 |     3 | RBT      | 51.00 |
+|    7 |     3 | TNBC     | 46.00 |
+|    8 |     4 | HAL      |  6.00 |
+|    9 |     4 | RBT      |  8.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> DELETE FROM provides
+    -> where p;
+ERROR 1054 (42S22): Unknown column 'p' in 'where clause'
+MariaDB [mytestdb]> SELECT Name  FROM Pieces WHERE Code IN   (SELECT Piece FROM Provides WHERE Provider = 'HAL');
++----------+
+| Name     |
++----------+
+| Sprocket |
+| Screw    |
+| Bolt     |
++----------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> UPDATE Provides SET Price = Price + 1;
+Query OK, 9 rows affected (0.09 sec)
+Rows matched: 9  Changed: 9  Warnings: 0
+
+MariaDB [mytestdb]> select * from provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     1 | HAL      | 12.00 |
+|    2 |     1 | RBT      | 17.00 |
+|    3 |     2 | HAL      | 22.00 |
+|    4 |     2 | RBT      | 17.00 |
+|    5 |     2 | TNBC     | 16.00 |
+|    6 |     3 | RBT      | 52.00 |
+|    7 |     3 | TNBC     | 47.00 |
+|    8 |     4 | HAL      |  7.00 |
+|    9 |     4 | RBT      |  9.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides  (code,provider,price) VALUES  (1, 'TNBC', 7);
+Query OK, 1 row affected, 1 warning (0.08 sec)
+
+MariaDB [mytestdb]> SELECT * FROM providers;
++------+--------------------+
+| code | name               |
++------+--------------------+
+|    0 | Clarke Enterprises |
++------+--------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> DELETE FROM Provides
+    -> WHERE Provider = 'RBT'
+    -> AND Piece = 4;
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [mytestdb]> SELECT * FROM PROVIDES;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     0 | TNBC     |  7.00 |
+|    1 |     1 | HAL      | 12.00 |
+|    2 |     1 | RBT      | 17.00 |
+|    3 |     2 | HAL      | 22.00 |
+|    4 |     2 | RBT      | 17.00 |
+|    5 |     2 | TNBC     | 16.00 |
+|    6 |     3 | RBT      | 52.00 |
+|    7 |     3 | TNBC     | 47.00 |
+|    8 |     4 | HAL      |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select p2.price, p1.name, p3.name from provides as p2 inner join providers as p3 on p2.provider = p3.code inner join pieces as p1 on p1.code = p2.piece where price = (select max(p2.price) from provides as p2 where p2.piece = p1.code);
++-------+----------+--------------------+
+| price | name     | name               |
++-------+----------+--------------------+
+| 17.00 | Sprocket | Clarke Enterprises |
+| 22.00 | Screw    | Clarke Enterprises |
+| 52.00 | Nut      | Clarke Enterprises |
+|  7.00 | Bolt     | Clarke Enterprises |
++-------+----------+--------------------+
+4 rows in set, 9 warnings (0.00 sec)
+
+MariaDB [mytestdb]> DELETE FROM provides WHERE provider=4;
+Query OK, 0 rows affected, 9 warnings (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * from provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     0 | TNBC     |  7.00 |
+|    1 |     1 | HAL      | 12.00 |
+|    2 |     1 | RBT      | 17.00 |
+|    3 |     2 | HAL      | 22.00 |
+|    4 |     2 | RBT      | 17.00 |
+|    5 |     2 | TNBC     | 16.00 |
+|    6 |     3 | RBT      | 52.00 |
+|    7 |     3 | TNBC     | 47.00 |
+|    8 |     4 | HAL      |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
