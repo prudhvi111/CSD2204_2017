@@ -1,0 +1,149 @@
+Setting environment for using XAMPP for Windows.
+710861@203-IMAC18 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| c0710861           |
+| information_schema |
+| menagerie          |
+| movies             |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| stutestdb          |
+| test               |
++--------------------+
+10 rows in set (0.00 sec)
+
+MariaDB [(none)]> use mytestdb;
+Database changed
+MariaDB [mytestdb]> select * from v1;
++------+-----------------+
+| code | name            |
++------+-----------------+
+|    1 | Hard drive      |
+|    2 | Memory          |
+|    3 | ZIP drive       |
+|    4 | Floppy disk     |
+|    5 | Monitor         |
+|    6 | DVD drive       |
+|    7 | CD drive        |
+|    8 | Printer         |
+|    9 | Toner cartridge |
+|   10 | DVD burner      |
+|   11 | Printer         |
+|   12 | Toner cartridge |
+|   13 | DVD burner      |
+|   14 | IPHONE X        |
+|   16 | IPHONE X        |
+|   18 | IPHONE X        |
++------+-----------------+
+16 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from v2;
++------+------------+
+| code | name       |
++------+------------+
+|    1 | Hard drive |
+|    3 | ZIP drive  |
+|    6 | DVD drive  |
+|    7 | CD drive   |
++------+------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from v3;
++------+------------+
+| code | name       |
++------+------------+
+|    1 | Hard drive |
+|    3 | ZIP drive  |
+|    6 | DVD drive  |
+|    7 | CD drive   |
++------+------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> CREATE TABLE AUDIT(    OperationID Integer(10) Primary KEY AUTO_INCREMENT,    TableName Varchar(50) NOT NULL,    OperationName Varchar(50) NOT NULL,    Operationdate TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP);
+ERROR 1050 (42S01): Table 'audit' already exists
+MariaDB [mytestdb]> desc audit;
++---------------+-------------+------+-----+-------------------+----------------+
+| Field         | Type        | Null | Key | Default           | Extra          |
++---------------+-------------+------+-----+-------------------+----------------+
+| OperationID   | int(10)     | NO   | PRI | NULL              | auto_increment |
+| TableName     | varchar(50) | NO   |     | NULL              |                |
+| OperationName | varchar(50) | NO   |     | NULL              |                |
+| Operationdate | timestamp   | NO   |     | CURRENT_TIMESTAMP |                |
++---------------+-------------+------+-----+-------------------+----------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> show table audit;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'audit' at line 1
+MariaDB [mytestdb]> desc audit;
++---------------+-------------+------+-----+-------------------+----------------+
+| Field         | Type        | Null | Key | Default           | Extra          |
++---------------+-------------+------+-----+-------------------+----------------+
+| OperationID   | int(10)     | NO   | PRI | NULL              | auto_increment |
+| TableName     | varchar(50) | NO   |     | NULL              |                |
+| OperationName | varchar(50) | NO   |     | NULL              |                |
+| Operationdate | timestamp   | NO   |     | CURRENT_TIMESTAMP |                |
++---------------+-------------+------+-----+-------------------+----------------+
+4 rows in set (0.02 sec)
+
+MariaDB [mytestdb]> update products set name= 'apple tv x' where code=16;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [mytestdb]> delimiter;
+ERROR: DELIMITER must be followed by a 'delimiter' character or string
+MariaDB [mytestdb]> delimiter //
+MariaDB [mytestdb]> CREATE TRIGGER Update_Check_Products AFTER UPDATE ON Products     FOR EACH ROW
+    -> BEGIN
+    -> INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Update');
+    -> END; //
+Query OK, 0 rows affected (0.25 sec)
+
+MariaDB [mytestdb]> delimiter;
+    -> Update Products set Name = 'New Monitor' where name = 'Monitor';
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'delimiter;Update Products set Name = 'New Monitor' where name = 'Monitor'' at line 1
+MariaDB [mytestdb]> delimiter //
+MariaDB [mytestdb]> CREATE TRIGGER Delete_Check_Products AFTER DELETE ON Products     FOR EACH ROW
+    -> BEGIN
+    -> INSERT INTO AUDIT(TABLENAME,OperationName) VALUES('Products','Deletes');
+    ->  END; //
+Query OK, 0 rows affected (0.11 sec)
+
+MariaDB [mytestdb]> delimiter;
+    -> DELETE FROM products Where code = 16;
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'delimiter;DELETE FROM products Where code = 16' at line 1
+MariaDB [mytestdb]> Select * FROM audit;
+    -> //
+Empty set (0.00 sec)
+
+MariaDB [mytestdb]> select * from audit;
+    -> //
+Empty set (0.00 sec)
+
+MariaDB [mytestdb]> desc audit;
+    -> //
++---------------+-------------+------+-----+-------------------+----------------+
+| Field         | Type        | Null | Key | Default           | Extra          |
++---------------+-------------+------+-----+-------------------+----------------+
+| OperationID   | int(10)     | NO   | PRI | NULL              | auto_increment |
+| TableName     | varchar(50) | NO   |     | NULL              |                |
+| OperationName | varchar(50) | NO   |     | NULL              |                |
+| Operationdate | timestamp   | NO   |     | CURRENT_TIMESTAMP |                |
++---------------+-------------+------+-----+-------------------+----------------+
+4 rows in set (0.00 sec)
